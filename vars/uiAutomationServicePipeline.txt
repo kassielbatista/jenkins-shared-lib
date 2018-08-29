@@ -1,0 +1,28 @@
+Required conf values
+- gitRepo - a microservice repo (example: Engineering/automation)
+- testSuite - the automation suite that need to run (examples: Smoke)
+
+Optional conf values
+- cron - cron schedule to run
+- gitCredentialsId - alternate Jenkins Credentials ID (default: 'st-github-builds')
+- disableEmail - set to true if email notifications should be disabled (default: false)
+- notificationEmailAddr - specify an alternate address for email notifications (default: qa-automation@squaretade.com)
+- timeout.time - Timeout time for the job (default = 30)
+- timeout.unit - Timeout units for the job (default = MINUTES)
+- environment - The environment where the job should run (default: NONE)
+
+Example configurations
+
+    @Library('devops-jenkins-pipeline-shared-library')_
+    uiAutomationServicePipeline(
+        gitRepo: 'Engineering/UIAutomation',
+        testSuite: 'Smoke'
+    )
+
+    @Library('devops-jenkins-pipeline-shared-library')_
+    uiAutomationServicePipeline(
+        gitRepo: 'Smoke',
+        testSuite: 'Smoke',
+        environment: 'production',
+        notificationEmailAddr: 'qa-automation@squaretrade.com'
+    )

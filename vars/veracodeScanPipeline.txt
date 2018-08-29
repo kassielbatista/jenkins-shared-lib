@@ -1,0 +1,114 @@
+Required conf values
+  - gitRepo - a Git repo (example: Engineering/mint-das)
+
+Optional conf values
+- projectType - The type of project you want to build (default: 'gradle')
+- cron - cron schedule to run
+- defaultBranch - Alternative default branch to build out of (default: 'master')
+- timeout.time - Timeout time for the job (default = 30)
+- timeout.unit - Timeout units for the job (default = MINUTES)
+- gitCredentialsId - alternate Jenkins Credentials ID (default: 'st-github-builds')
+- disableEmail - set to true if email notifications should be disabled (default: false)
+- notificationEmailAddr - specify an alternate address for email notifications (default: builds@squaretade.com)
+- subproject - specify if <code>gitRepo</code> has multiple microservices (example: warranty-migration-consumer)
+- gradleTask - Alternative Gradle task to build upload artifacts (default: 'assemble')
+- additionalBuildOpts - Additional config option for the build step
+- pythonProjectFiles - Optional list of extensions to search when scanning Python projects (default: ['.py', '.html', '.js', '.css'])
+- nodeToRun - Specify the node where the job should run (example: slavebee1)
+- isPromote - Promote the Sandbox scan to a Policy scan (default: true)
+- veracodeScanType - POLICY or SANDBOX (default: SANDBOX)
+- veracodeMethodType - SERIAL or PARALLEL (default: SERIAL)
+- veracodeApps - A list of Veracode applications to scan.  Each application has the following configuration map options:
+   - preBuild - Specify a command line that will be used to build a custom artifact specifically for Veracode policy scanning 
+   - appName - Veracode application name (example: mint-das)
+   - sandboxName - Veracode sandbox name (default: 'Cloudbees Sandbox')
+   - credentialsId - Veracode credentials ID (default: '5021cb1f-98a3-4d5b-af99-d6adf29a8d66')
+   - includesPattern - Veracode upload includes pattern (default: 'build/libs/*.jar')
+   - excludesPattern - Veracode upload excludes pattern (default: 'build/libs/*sources.jar,build/libs/*javadoc.jar')
+   - timeout -  Optional time to wait in minutes for the scan to complete (example: 60).
+   - uploadFrom: - The location within the workspace to upload artifacts from (default: '.')
+
+Example Configurations
+
+    @Library('devops-jenkins-pipeline-shared-library')_
+    veracodeScanPipeline(
+        gitRepo: 'Billing/tax-engine',
+        timeout [
+            time: 10,
+            units: 'MINUTES'
+        ],
+        nodeToRun: 'slavebee1',
+        veracodeApps: [
+            [
+                appName: 'tax-engine',
+                excludesPattern: 'build/libs/*sources.jar,build/libs/*javadoc.jar'
+            ]
+        ]
+    )
+
+    @Library('devops-jenkins-pipeline-shared-library')_
+    veracodeScanPipeline(
+        gitRepo: 'Engineering/SourceRoot',
+        gradleTask: 'install',
+        cron: '@midnight',
+        veracodeApps: [
+            [
+                appName: 'sourceroot-app',
+                uploadFrom: 'Engineering/DistributeRoot',
+                includesPattern: 'jboss/apps/app.ear',
+            ],
+            [
+                appName: 'sourceroot-batch',
+                uploadFrom: 'Engineering/DistributeRoot',
+                includesPattern: 'jboss/apps/batch.ear',
+            ]
+        ]
+    )
+
+    @Library('devops-jenkins-pipeline-shared-library')_
+    veracodeScanPipeline(
+        gitRepo: 'Engineering/ha-services',
+        cron: '@midnight',
+        veracodeScanMethod: 'PARALLEL',
+        veracodeApps: [
+            [
+                appName: 'bulk-submitter',
+                uploadFrom: 'Engineering/ha-services/bulk-submitter'
+            ],
+            [
+                appName: 'payment-gateway',
+                uploadFrom: 'Engineering/ha-services/payment-gateway'
+            ]
+        ]
+    )
+
+    //Using Prebuild option
+    @Library('devops-jenkins-pipeline-shared-library')_
+    uServiceStagePipeline(
+        gitRepo: 'Engineering/comm-template',
+        disableDbUpdates: true,
+        disableTests: true,
+        isPromote: true,
+        veracodeApps: [
+            [
+                preBuild: './gradlew -Dorg.gradle.project.buildDir=veracode -PdisableSpringBootExecutable :com-template-validator:assemble',
+                appName: 'comm-template',
+                includesPattern: 'comm-template-service/build/libs/*.jar,comm-template-validator/veracode/libs/*.jar'
+            ]        
+        ]
+    )
+
+    //For Python projects
+    @Library('devops-jenkins-pipeline-shared-library')_
+    veracodeScanPipeline(
+        gitRepo: 'device-repair-team/device-repair',
+        disableEmail: true,
+        isPythonProject: true,
+        veracodeScanType: 'POLICY',
+        veracodeApps: [
+            [ 
+                appName: 'device-repair',
+                includesPattern: '*.zip'
+            ]
+        ]
+    )    

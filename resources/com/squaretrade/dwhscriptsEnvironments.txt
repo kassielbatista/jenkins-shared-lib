@@ -1,0 +1,3 @@
+NONE
+informatica-1.stage1.squaretrade.com
+informatica-1.production.squaretrade.com

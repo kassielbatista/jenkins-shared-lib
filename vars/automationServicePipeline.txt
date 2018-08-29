@@ -1,0 +1,34 @@
+Required conf values
+- gitRepo - a microservice repo (example: Engineering/automation)
+- suites - the automation suite that need to run (examples: [WarrantyRegression, BulkRegression], [ClaimBVT])
+- planType - plan type to be executed (example: BVT1)
+- suiteType - suite type to be executed (example: MERCHANT_INTEGRATION)
+
+Optional conf values
+- cron - cron schedule to run
+- gitCredentialsId - alternate Jenkins Credentials ID (default: 'st-github-builds')
+- disableEmail - set to true if email notifications should be disabled (default: false)
+- notificationEmailAddr - specify an alternate address for email notifications (default: builds@squaretade.com)
+- timeout.time - Timeout time for the job (default = 30)
+- timeout.unit - Timeout units for the job (default = MINUTES)
+- maxThreads - Max number of threads (default: 8)
+- environment - The environment where the job should run (default: NONE)
+
+Example configurations
+
+    @Library('devops-jenkins-pipeline-shared-library')_
+    automationServicePipeline(
+        gitRepo: 'Engineering/automation',
+        suite: ['WarrantyRegression', 'BulkWarrantyRegression'],
+        planType: 'BVT1',
+        suiteType: 'MERCHANT_INTEGRATION',
+    )
+
+    @Library('devops-jenkins-pipeline-shared-library')_
+    automationServicePipeline(
+        gitRepo: ['Engineering/automation'],
+        suite: 'claimBVT',
+        maxThreads: 8,
+        planType: 'BVT1',
+        suiteType: 'AUTOMATION_FLOWEE_READY,COMMUNICATION,DEPOT_INTEGRATION,EM,EMAIL,FACA_ADMIN_UI,FILEACLAIM,PAYMENT_PROCESSING,TOOLS',
+    )

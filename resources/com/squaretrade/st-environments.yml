@@ -1,0 +1,604 @@
+application:
+  account-updater:
+    appUser: accountupdater
+    cluster: svcApiInt
+    port: 11010
+    repo:
+      ssh: git@github.squaretrade.com:Billing/account-updater.git
+      https: https://github.squaretrade.com/Billing/account-updater
+    tags: [ apps, claims ]
+    priority: 5
+  appointment-service:
+    appUser: appointment
+    cluster: svcApiExt
+    port: 10080
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/appointment.git
+      https: https://github.squaretrade.com/Engineering/appointment
+    tags: [ apps, claims ]
+    priority: 5
+  billing-adapter:
+    appUser: billingadapter
+    cluster: svcApiInt
+    port: 7020
+    repo:
+      ssh: git@github.squaretrade.com:Billing/billing-adapter.git
+      https: https://github.squaretrade.com/Billing/billing-adapter
+    tags: [ mint, billing ]
+    priority: 5
+  billing-core:
+    appUser: billingcore
+    cluster: svcApiInt
+    port: 7000
+    repo:
+      ssh: git@github.squaretrade.com:Billing/billing-core.git
+      https: https://github.squaretrade.com/Billing/billing-core
+    tags: [ mint, billing ]
+    priority: 5
+  bulk-submitter:
+    appUser: bulksubmitter
+    cluster: svcBatch
+    port: 9030
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/ha-services.git
+      https: https://github.squaretrade.com/Engineering/ha-services
+    tags: [ mint, ha-services ]
+    priority: 5
+  claimbilling-core:
+    appUser: claimbillingcore
+    cluster: svcApiExt
+    port: 9030
+    repo:
+      ssh: git@github.squaretrade.com:claim-billing/claimbilling-core.git
+      https: https://github.squaretrade.com/claim-billing/claimbilling-core
+    tags: [ apps, billing ]
+    priority: 5
+  claim-filing-service:
+    appUser: claimfiling
+    cluster: svcApiExt
+    port: 10060
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/fac17.git
+      https: https://github.squaretrade.com/Engineering/fac17
+    tags: [ apps, claims ]
+    priority: 5
+  claim-status-service:
+    appUser: claimstatus
+    cluster: svcApiExt
+    port: 9060
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/claim-status.git
+      https: https://github.squaretrade.com/Engineering/claim-status
+    tags: [ apps, claims ]
+    priority: 5
+  cloud-config-service:
+    appUser: cloudconfig
+    cluster: svcApiInt
+    port: 31000
+    repo:
+      ssh: git@github.squaretrade.com:pancake/meta-services.git
+      https: https://github.squaretrade.com/pancake/meta-services
+    tags: [ platform, meta ]
+    priority: 1
+  cloud-storage:
+    appUser: cloudstorage
+    cluster: svcApiInt
+    port: 9190
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/cloud-storage.git
+      https: https://github.squaretrade.com/Engineering/cloud-storage
+    tags: [ apps, email ]
+    priority: 5
+  comm-template:
+    appUser: commtmpl
+    cluster: svcApiExt
+    port: 9150
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/comm-template.git
+      https: https://github.squaretrade.com/Engineering/comm-template
+    tags: [ apps, email ]
+    priority: 5
+  communication-deliverability-batch-service:
+    appUser: communicationdeliverability
+    cluster: svcBatch
+    port: 9120
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/communication-deliverability-batch.git
+      https: https://github.squaretrade.com/Engineering/communication-deliverability-batch
+    tags: [ apps, email ]
+    priority: 5
+  communication-transmission-service:
+    appUser: commtx
+    cluster: svcApiInt
+    port: 9130
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/communication-transmission.git
+      https: https://github.squaretrade.com/Engineering/communication-transmission
+    tags: [ apps, email ]
+    priority: 5
+  depot-order-service:
+    appUser: depotorder
+    cluster: jbossBatch
+    port: 9100
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/depot-services.git
+      https: https://github.squaretrade.com/Engineering/depot-services
+    tags: [ apps, claims ]
+    priority: 5
+  jboss-app:
+    appUser: jboss
+    cluster: jbossApp
+    port: 8443
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/SourceRoot.git
+      https: https://github.squaretrade.com/Engineering/SourceRoot
+    tags: [ sourceroot ]
+    priority: 5
+  jboss-batch:
+    appUser: jboss
+    cluster: jbossBatch
+    port: 8443
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/SourceRoot.git
+      https: https://github.squaretrade.com/Engineering/SourceRoot
+    tags: [ sourceroot ]
+    priority: 5
+  jboss-mint:
+    appUser: jboss
+    cluster: jbossMint
+    port: 8443
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/MintRoot.git
+      https: https://github.squaretrade.com/Engineering/MintRoot
+    tags: [ mintroot ]
+    priority: 5
+  local-repair:
+    appUser: localrepair
+    cluster: svcApiExt
+    port: 9250
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/local-repair.git
+      https: https://github.squaretrade.com/Engineering/local-repair
+    tags: [ apps, claims ]
+    priority: 5
+  mint-das:
+    appUser: mintdas
+    cluster: svcApiInt
+    port: 16000
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/mint-das
+      https: https://github.squaretrade.com/Engineering/mint-das
+    tags: [ mint, warranty ]
+    priority: 5
+  payment-edge:
+    appUser: paymentedge
+    cluster: svcApiEdge
+    port: 33100
+    repo:
+      ssh: git@github.squaretrade.com:Billing/payment-edge.git
+      https: https://github.squaretrade.com/Billing/payment-edge
+    tags: [ mint, purchase ]
+    priority: 5
+  payment-gateway:
+    appUser: paymentgateway
+    cluster: svcApiInt
+    port: 9010
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/ha-services.git
+      https: https://github.squaretrade.com/Engineering/ha-services
+    tags: [ mint, purchase ]
+    priority: 5
+  payment-token-mapper:
+    appUser: paymenttokenmapper
+    cluster: svcApiInt
+    port: 11090
+    repo:
+      ssh: git@github.squaretrade.com:Billing/payment-token-mapper.git
+      https: https://github.squaretrade.com/Billing/payment-token-mapper
+    tags: [ mint, purchase ]
+    priority: 5
+  payment-tokenizer:
+    appUser: paymenttokenizer
+    cluster: svcApiExt
+    port: 33200
+    repo:
+      ssh: git@github.squaretrade.com:Billing/payment-tokenizer.git
+      https: https://github.squaretrade.com/Billing/payment-tokenizer
+    tags: [ mint, purchase ]
+    priority: 5
+  payment-webhook:
+    appUser: paymentwebhook
+    cluster: svcApiExt
+    port: 33330
+    repo:
+      ssh: git@github.squaretrade.com:Billing/payment-webhook.git
+      https: https://github.squaretrade.com/Billing/payment-webhook
+    tags: [ mint, purchase ]
+    priority: 5
+  pop-service:
+    appUser: proofofpurchase
+    cluster: svcApiExt
+    port: 9080
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/pop.git
+      https: https://github.squaretrade.com/Engineering/pop
+    tags: [ apps, claims ]
+    priority: 5
+  registry-service:
+    appUser: registry
+    cluster: svcApiInt
+    port: 32000
+    repo:
+      ssh: git@github.squaretrade.com:pancake/meta-services.git
+      https: https://github.squaretrade.com/pancake/meta-services
+    tags: [ platform, meta ]
+    priority: 1
+  replacement-service:
+    appUser: replacement
+    cluster: svcApiExt
+    port: 10040
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/replacement.git
+      https: https://github.squaretrade.com/Engineering/replacement
+    tags: [ apps, claims ]
+    priority: 5
+  sepa-tokenizer:
+    appUser: sepatokenizer
+    cluster: svcApiExt
+    port: 33300
+    repo:
+      ssh: git@github.squaretrade.com:Billing/sepa-tokenizer.git
+      https: https://github.squaretrade.com/Billing/sepa-tokenizer
+    tags: [ mint, billing ]
+    priority: 5
+  supplier-order:
+    appUser: supplierorder
+    cluster: jbossBatch
+    port: 9300
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/supplier-order.git
+      https: https://github.squaretrade.com/Engineering/supplier-order
+    tags: [ apps, claims ]
+    priority: 5
+  sparkpost-webhook-service:
+    appUser: sparkpostwebhook
+    cluster: svcApiExt
+    port: 9110
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/sparkpost-webhook.git
+      https: https://github.squaretrade.com/Engineering/sparkpost-webhook
+    tags: [ apps, email ]
+    priority: 5
+  tax-engine:
+    appUser: taxengine
+    cluster: svcApiInt
+    port: 9020
+    repo:
+      ssh: git@github.squaretrade.com:Billing/tax-engine.git
+      https: https://github.squaretrade.com/Billing/tax-engine
+    tags: [ mint, purchase ]
+    priority: 5
+  validation-api:
+    appUser: validationapi
+    cluster: svcApiInt
+    port: 10020
+    repo:
+      ssh: git@github.squaretrade.com:QA/validation-api.git
+      https: https://github.squaretrade.com/QA/validation-api
+    tags: [ pre-prod ]
+    priority: 5
+  warranty-creation-service:
+    appUser: warrantycreation
+    cluster: svcApiInt
+    port: 18200
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/warranty-creation.git
+      https: https://github.squaretrade.com/Engineering/warranty-creation
+    tags: [ mint, warranty ]
+    priority: 5
+  warranty-das:
+    appUser: warrantydas
+    cluster: svcApiInt
+    port: 16100
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/warranty-das.git
+      https: https://github.squaretrade.com/Engineering/warranty-das
+    tags: [ mint, warranty ]
+    priority: 3
+  warranty-migration-consumer:
+    appUser: warrantymigrationconsumer
+    cluster: svcBatch
+    port: 12100
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/warranty-migration.git
+      https: https://github.squaretrade.com/Engineering/warranty-migration
+    tags: [ mint, warranty ]
+    priority: 5
+  warranty-migration-producer:
+    appUser: warrantymigrationproducer
+    cluster: svcBatch
+    port: 12000
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/warranty-migration.git
+      https: https://github.squaretrade.com/Engineering/warranty-migration
+    tags: [ mint, warranty ]
+    priority: 5
+  warranty-queuer:
+    appUser: warrantyqr
+    cluster: svcBatch
+    port: 9200
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/warranty-queuer.git
+      https: https://github.squaretrade.com/Engineering/warranty-queuer
+    tags: [ platform, warranty, claims ]
+    priority: 5
+  warranty-staging-zone:
+    appUser: warrantystagingzone
+    cluster: svcApiExt
+    port: 9070
+    repo:
+      ssh: git@github.squaretrade.com:Warranty/warranty-staging-zone.git
+      https: https://github.squaretrade.com/Warranty/warranty-staging-zone
+    tags: [ mint, purchase ]
+    priority: 5
+  warranty-status:
+    appUser: warrantystatus
+    cluster: svcApiExt
+    port: 9350
+    repo:
+      ssh: git@github.squaretrade.com:Engineering/warranty-status.git
+      https: https://github.squaretrade.com/Engineering/warranty-status
+    tags: [ apps, claims ]
+    priority: 5
+
+# STANDARD ENVIRONMENT CLUSTER DEFINITIONS
+#
+clusterType:
+
+  dev:
+    svcApiEdge:
+      hosts: [ svc-api-edge-1 ]
+    svcApiExt:
+      hosts: [ svc-api-ext-1 ]
+    svcApiInt:
+      hosts: [ svc-api-int-1 ]
+    svcBatch:
+      hosts: [ svc-batch-1 ]
+    jbossApp:
+      hosts: [ jboss-app-1 ]
+    jbossBatch:
+      hosts: [ jboss-batch-1 ]
+    jbossMint:
+      hosts: [ jboss-mint-1 ]
+    brokerApp:
+      hosts: [ amq-1 ]
+    brokerBatch:
+      hosts: [ amq-1 ]
+    brokerMint:
+      hosts: [ amq-1 ]
+    redis:
+      hosts: [ redis-1 ]
+    redisSentinel:
+      hosts: [ redis-1 ]
+    zookeeper:
+      hosts: [ zk-1 ]
+
+  miniCluster:
+    svcApiEdge:
+      hosts: [ svc-api-edge-1, svc-api-edge-2 ]
+    svcApiExt:
+      hosts: [ svc-api-ext-1, svc-api-ext-2 ]
+    svcApiInt:
+      hosts: [ svc-api-int-1, svc-api-int-2 ]
+    svcBatch:
+      hosts: [ svc-batch-1, svc-batch-2 ]
+    jbossApp:
+      hosts: [ jboss-app-1, jboss-app-2 ]
+    jbossBatch:
+      hosts: [ jboss-batch-1, jboss-batch-2 ]
+    jbossMint:
+      hosts: [ jboss-mint-1, jboss-mint-2 ]
+    brokerApp:
+      hosts: [ amq-1 ]
+    brokerBatch:
+      hosts: [ amq-1 ]
+    brokerMint:
+      hosts: [ amq-1 ]
+    redis:
+      hosts: [ redis-1 ]
+    redisSentinel:
+      hosts: [ redis-1 ]
+    zookeeper:
+      hosts: [ zk-1 ]
+
+  hotfix:
+    svcApiEdge:
+      hosts: [ svc-api-edge-1, svc-api-edge-2 ]
+    svcApiExt:
+      hosts: [ svc-api-ext-1, svc-api-ext-2 ]
+    svcApiInt:
+      hosts: [ svc-api-int-1, svc-api-int-2 ]
+    svcBatch:
+      hosts: [ svc-batch-1, svc-batch-2 ]
+    jbossApp:
+      hosts: [ jboss-app-1, jboss-app-2, jboss-app-3 ]
+    jbossBatch:
+      hosts: [ jboss-batch-1, jboss-batch-2, jboss-batch-3 ]
+    jbossMint:
+      hosts: [ jboss-mint-1, jboss-mint-2, jboss-mint-3, jboss-mint-4 ]
+    brokerApp:
+      hosts: [ amq-1, amq-2 ]
+    brokerBatch:
+      hosts: [ amq-1, amq-2 ]
+    brokerMint:
+      hosts: [ amq-1, amq-2 ]
+    redis:
+      hosts: [ redis-1, redis-2 ]
+    redisSentinel:
+      hosts: [ zk-1, zk-2, zk-3 ]
+    zookeeper:
+      hosts: [ zk-1, zk-2, zk-3 ]
+
+  production:
+    svcApiEdge:
+      hosts: [ svc-api-edge-1, svc-api-edge-2 ]
+    svcApiExt:
+      hosts: [ svc-api-ext-1, svc-api-ext-2 ]
+    svcApiInt:
+      hosts: [ svc-api-int-1, svc-api-int-2 ]
+    svcBatch:
+      hosts: [ svc-batch-1, svc-batch-2 ]
+    jbossApp:
+      hosts: [ jboss-app-1, jboss-app-2, jboss-app-3 ]
+    jbossBatch:
+      hosts: [ jboss-batch-1, jboss-batch-2, jboss-batch-3 ]
+    jbossMint:
+      hosts: [ jboss-mint-1, jboss-mint-2, jboss-mint-3, jboss-mint-4 ]
+    brokerApp:
+      hosts: [ amq-1, amq-2 ]
+    brokerBatch:
+      hosts: [ amq-1, amq-2 ]
+    brokerMint:
+      hosts: [ amq-1, amq-2 ]
+    redis:
+      hosts: [ redis-1, redis-2 ]
+    redisSentinel:
+      hosts: [ zk-1, zk-2, zk-3 ]
+    zookeeper:
+      hosts: [ zk-1, zk-2, zk-3 ]
+
+cluster:
+  brokerApp:
+    httpPort: 61600
+    activemqPort: 61601
+    transportType: failover
+  brokerBatch:
+    httpPort: 61610
+    activemqPort: 61611
+    transportType: failover
+  brokerMint:
+    httpPort: 61620
+    activemqPort: 61621
+    transportType: failover
+  zookeeper:
+    port:  2181
+  redis:
+    master:
+      name: master0
+    port: 6379
+  redisSentinel:
+    port: 26379
+
+# Dynamic cluster template properties
+#
+# Property names containing dots will have maps for intermediate levels.
+# Example: activemq.app.broker-url has nested Map instances for activemq and app.
+#
+# Groovy GString templates are used to render host (FQDN) items property value.
+#
+clusterPropertyDefinition:
+
+# activemq template properties
+- name: activemq.app.broker-url
+  clusterType: brokerApp
+  itemDelimiter: ","
+  itemTemplate: "tcp://${host}:${cluster.brokerApp.activemqPort}"
+  template: "${cluster.brokerApp.transportType}:(${joinedItems})"
+  # Example: failover:(tcp://broker-1.production.squaretrade.com:61601, tcp://broker-2.production.squaretrade.com:61601)
+
+- name: activemq.app.monitoring-url
+  clusterType: brokerApp
+  itemTemplate: "${host}:${cluster.brokerApp.httpPort}"
+  itemDelimiter: ","
+  template: "${joinedItems}"
+  # Example: broker-1.production.squaretrade.com:61600,broker-2.production.squaretrade.com:61600
+
+- name: activemq.batch.broker-url
+  clusterType: brokerBatch
+  itemDelimiter: ","
+  itemTemplate: "tcp://${host}:${cluster.brokerBatch.activemqPort}"
+  template: "${cluster.brokerBatch.transportType}:(${joinedItems})"
+  # Example: failover:(tcp://broker-1.production.squaretrade.com:61611, tcp://broker-2.production.squaretrade.com:61611)
+
+- name: activemq.batch.monitoring-url
+  clusterType: brokerBatch
+  itemDelimiter: ","
+  itemTemplate: "${host}:${cluster.brokerBatch.httpPort}"
+  template: "${joinedItems}"
+  # Example: broker-1.production.squaretrade.com:61610,broker-2.production.squaretrade.com:61610
+
+- name: activemq.mint.broker-url
+  clusterType: brokerMint
+  itemDelimiter: ","
+  itemTemplate: "tcp://${host}:${cluster.brokerMint.activemqPort}"
+  template: "${cluster.brokerMint.transportType}:(${joinedItems})"
+  # Example: failover:(tcp://amq-1.production.squaretrade.com:61611, tcp://amq-2.production.squaretrade.com:61611)
+
+- name: activemq.mint.monitoring-url
+  clusterType: brokerMint
+  itemDelimiter: ","
+  itemTemplate: "${host}:${cluster.brokerMint.httpPort}"
+  template: "${joinedItems}"
+  # Example: amq-1.production.squaretrade.com:61610,amq-1.production.squaretrade.com:61610
+
+- name: cluster.redis.master.host
+  clusterType: redis
+  itemDelimiter: ","
+  itemTemplate: "${host}"
+  template: "${firstItem}"
+  # Example: redis-1.production.squaretrade.com
+
+- name: activemq.zookeeper-cluster
+  clusterType: zookeeper
+  itemDelimiter: ","
+  itemTemplate: "${host}:${cluster.zookeeper.port}"
+  template: "${joinedItems}"
+  # Example: zk-1.production.squaretrade.com:2181,zk-2.production.squaretrade.com:2181,zk-3.production.squaretrade.com:2181
+
+- name: zookeeper.cluster
+  clusterType: zookeeper
+  itemDelimiter: ","
+  itemTemplate: "${host}:${cluster.zookeeper.port}"
+  template: "${joinedItems}"
+  # Example: zk-1.production.squaretrade.com:2181,zk-2.production.squaretrade.com:2181,zk-3.production.squaretrade.com:2181
+
+# ENVIRONMENT DEFINITIONS
+# All undefined environments are created using the default environment as a template
+#
+environment:
+  # Default environment definition (used for all undefined environment names)
+  default:          { type: dev, clusterType: 'dev' }
+
+  # All the other environments
+  appsteam-cluster: { type: dev,        clusterType: 'miniCluster' }
+  appsteam1:        { type: dev,        clusterType: 'dev' }
+  appsteam2:        { type: dev,        clusterType: 'dev' }
+  appsteam3:        { type: dev,        clusterType: 'dev' }
+  appsteam4:        { type: dev,        clusterType: 'dev' }
+  dev1:             { type: dev,        clusterType: 'dev' }
+  hotfix:           { type: stage,      clusterType: 'hotfix' }
+  load:             { type: stage,      clusterType: 'production' }
+  localhost:        { type: dev,        clusterType: 'dev' }
+  miga:             { type: dev,        clusterType: 'dev' }
+  mintteam1:        { type: dev,        clusterType: 'miniCluster' }
+  mintteam2:        { type: dev,        clusterType: 'dev' }
+  mintteam3:        { type: dev,        clusterType: 'dev' }
+  mintteam4:        { type: dev,        clusterType: 'dev' }
+  mintteam5:        { type: dev,        clusterType: 'dev' }
+  mintteam6:        { type: dev,        clusterType: 'dev' }
+  mintteam7:        { type: dev,        clusterType: 'dev' }
+  mintteam8:        { type: dev,        clusterType: 'dev' }
+  mintteam9:        { type: dev,        clusterType: 'dev' }
+  mintteam10:       { type: dev,        clusterType: 'dev' }
+  platformteam1:    { type: dev,        clusterType: 'miniCluster' }
+  platformteam2:    { type: dev,        clusterType: 'dev' }
+  production-dr:    { type: production, clusterType: 'production' }
+  production:       { type: production, clusterType: 'production' }
+  stage1:           { type: stage,      clusterType: 'miniCluster' }
+  stage2:           { type: stage,      clusterType: 'miniCluster' }
+  stage3:           { type: stage,      clusterType: 'miniCluster' }
+  stage4-dr:        { type: stage,      clusterType: 'miniCluster' }
+  stage4:           { type: stage,      clusterType: 'miniCluster' }
+  training2:        { type: dev,        clusterType: 'miniCluster' }
+  training3:        { type: dev,        clusterType: 'miniCluster' }
+  training:         { type: dev,        clusterType: 'miniCluster' }

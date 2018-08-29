@@ -1,0 +1,181 @@
+// Pipeline share library repo: https://github.squaretrade.com/devops/jenkins-pipeline-shared-lib
+@Library('devops-jenkins-pipeline-shared-library')
+import com.squaretrade.deploy.model.*
+
+// Dev Update Everything!
+pipeline {
+    agent any
+    parameters {
+        choice(name: 'ENVIRONMENT',
+                choices: 'NONE\ndev1\nplatformteam1\n',
+                description: 'The environment.'
+        )
+        choice(name: 'LABEL',
+                choices: 'ALL\ndismintegrate\nmint\ncommunications',
+                description: 'Label specifies groups of services to deploy'
+        )
+        string(name: 'DEPLOYMENT_CONFIG_BRANCH_OR_TAG', defaultValue: 'master', description: 'Git branch or tag to build for the deployment-config-dev repo')
+    }
+    environment {
+        GRADLE_OPTS = '-Dorg.gradle.daemon=false'
+        STENV = "${params.ENVIRONMENT}"
+    }
+    stages {
+        stage('Configure') {
+            steps {
+                script {
+                    if (params.ENVIRONMENT == 'NONE') {
+                        error 'ENVIRONMENT parameter is not set'
+                    }
+                }
+                echo "Read deployment configuration"
+                dir('deployment-config-dev') {
+                    checkoutGitBranchOrTag(
+                            url: "git@github.squaretrade.com:devops/deployment-config-dev.git",
+                            credentialsId: params.GIT_CREDENTIALS_ID,
+                            branchOrTag: params.DEPLOYMENT_CONFIG_BRANCH_OR_TAG)
+                }
+                dir('deployment-history') {
+                    git url: 'git@github.squaretrade.com:devops/deployment-history.git',
+                            credentialsId: 'st-github-builds', branch: 'master'
+                }
+                script {
+                    // shared library call
+                    servicesToDeploy = listServicesToDeploy()
+
+                    echo "Done reading services to deploy"
+                    println servicesToDeploy
+                }
+                stash name: "deployment-config", includes: "**/*.json"
+            }
+        }
+        stage('Deploy Services') {
+            steps {
+                parallel(
+                        'mint-das': {
+                            echo "Deploy mint-das version ${servicesToDeploy['mint-das']} to ${params.ENVIRONMENT}"
+                            build job: 'mint-das', parameters: [
+                                    string(name: 'ENVIRONMENT', value: params.ENVIRONMENT),
+                                    string(name: 'GIT_BRANCH_OR_TAG', value: servicesToDeploy['mint-das']),
+                            ]
+                        },
+                        'warranty-das': {
+                            echo "Deploy warranty-das version ${servicesToDeploy['warranty-das']} to ${params.ENVIRONMENT}"
+                            build job: 'warranty-das', parameters: [
+                                    string(name: 'ENVIRONMENT', value: params.ENVIRONMENT),
+                                    string(name: 'GIT_BRANCH_OR_TAG', value: servicesToDeploy['warranty-das']),
+                            ]
+                        },
+                        'warranty-queuer': {
+                            echo "Deploy warranty-queuer version ${servicesToDeploy['warranty-queuer']} to ${params.ENVIRONMENT}"
+                            build job: 'warranty-queuer', parameters: [
+                                    string(name: 'ENVIRONMENT', value: params.ENVIRONMENT),
+                                    string(name: 'GIT_BRANCH_OR_TAG', value: servicesToDeploy['warranty-queuer']),
+                            ]
+                        },
+                        'warranty-migration-consumer': {
+                            echo "Deploy warranty-migration-consumer version ${servicesToDeploy['warranty-migration-consumer']} to ${params.ENVIRONMENT}"
+                            build job: 'warranty-migration-consumer', parameters: [
+                                    string(name: 'ENVIRONMENT', value: params.ENVIRONMENT),
+                                    string(name: 'GIT_BRANCH_OR_TAG', value: servicesToDeploy['warranty-migration-consumer']),
+                            ]
+                        },
+                        'warranty-migration-producer': {
+                            echo "Deploy warranty-migration-producer version ${servicesToDeploy['warranty-migration-producer']} to ${params.ENVIRONMENT}"
+                            build job: 'warranty-migration-producer', parameters: [
+                                    string(name: 'ENVIRONMENT', value: params.ENVIRONMENT),
+                                    string(name: 'GIT_BRANCH_OR_TAG', value: servicesToDeploy['warranty-migration-producer']),
+                            ]
+                        }
+                )
+            }
+        }
+    }
+}
+//        stage('mint-das') {
+//            environment {
+//                SERVICE='mint-das'
+//            }
+//            when {
+//                expression {
+//                    servicesToDeploy.containsKey('mint-das')
+//                }
+//            }
+//            steps {
+//                echo "Deploy ${env.SERVICE} version ${servicesToDeploy[env.SERVICE]}"
+//                build job: env.SERVICE, parameters: [
+//                        string(name: 'ENVIRONMENT', value: params.ENVIRONMENT),
+//                        string(name: 'GIT_BRANCH_OR_TAG', value: servicesToDeploy[env.SERVICE]),
+//                ]
+//            }
+//        }
+//        stage('warranty-das') {
+//            environment {
+//                SERVICE='warranty-das'
+//            }
+//            when {
+//                expression {
+//                    servicesToDeploy.containsKey(env.SERVICE)
+//                }
+//            }
+//            steps {
+//                echo "Deploy ${env.SERVICE} version ${servicesToDeploy[env.SERVICE]}"
+//                build job: env.SERVICE, parameters: [
+//                        string(name: 'ENVIRONMENT', value: params.ENVIRONMENT),
+//                        string(name: 'GIT_BRANCH_OR_TAG', value: servicesToDeploy[env.SERVICE]),
+//                ]
+//            }
+//        }
+//        stage('warranty-queuer') {
+//            environment {
+//                SERVICE='warranty-migration-consumer'
+//            }
+//            when {
+//                expression {
+//                    servicesToDeploy.containsKey(env.SERVICE)
+//                }
+//            }
+//            steps {
+//                echo "Deploy ${env.SERVICE} version ${servicesToDeploy[env.SERVICE]}"
+//                build job: env.SERVICE, parameters: [
+//                        string(name: 'ENVIRONMENT', value: params.ENVIRONMENT),
+//                        string(name: 'GIT_BRANCH_OR_TAG', value: servicesToDeploy[env.SERVICE]),
+//                ]
+//            }
+//        }
+//        stage('warranty-migration-consumer') {
+//            environment {
+//                SERVICE='warranty-migration-consumer'
+//            }
+//            when {
+//                expression {
+//                    servicesToDeploy.containsKey(env.SERVICE)
+//                }
+//            }
+//            steps {
+//                echo "Deploy ${env.SERVICE} version ${servicesToDeploy[env.SERVICE]}"
+//                build job: env.SERVICE, parameters: [
+//                        string(name: 'ENVIRONMENT', value: params.ENVIRONMENT),
+//                        string(name: 'GIT_BRANCH_OR_TAG', value: servicesToDeploy[env.SERVICE]),
+//                ]
+//            }
+//        }
+//        stage('warranty-migration-producer') {
+//            environment {
+//                SERVICE='warranty-migration-producer'
+//            }
+//            when {
+//                expression {
+//                    servicesToDeploy.containsKey(env.SERVICE)
+//                }
+//            }
+//            steps {
+//                echo "Deploy ${env.SERVICE} version ${servicesToDeploy[env.SERVICE]}"
+//                build job: env.SERVICE, parameters: [
+//                        string(name: 'ENVIRONMENT', value: params.ENVIRONMENT),
+//                        string(name: 'GIT_BRANCH_OR_TAG', value: servicesToDeploy[env.SERVICE]),
+//                ]
+//            }
+//        }
+//    }
+//}

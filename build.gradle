@@ -1,0 +1,121 @@
+import org.gradle.api.tasks.testing.Test
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'idea'
+
+ext {
+    groovy_all = 'org.codehaus.groovy:groovy-all:2.4.12'
+}
+
+repositories {
+    mavenLocal()
+    maven {
+        name 'SquareTrade Nexus'
+        url "http://nexus.squaretrade.com/content/groups/public"
+    }
+    maven {
+        name 'SquareTrade Release'
+        url "http://nexus.squaretrade.com/content/repositories/releases"
+    }
+    maven {
+        name 'SquareTrade Snapshots'
+        url "http://nexus.squaretrade.com/content/repositories/snapshots"
+    }
+    maven {
+        url('https://repo.jenkins-ci.org/public/')
+    }
+}
+
+sourceSets {
+    main {
+        groovy {
+            srcDirs = ['src', 'vars']
+        }
+        resources {
+            srcDirs = ['resources']
+        }
+    }
+
+    commonTest {
+        groovy {
+            srcDirs = ['commonTest']
+        }
+    }
+
+    test {
+        groovy {
+            srcDirs = ['test']
+        }
+    }
+
+    integTest {
+        groovy {
+            srcDirs = ['integTest']
+        }
+        resources {
+            srcDirs = ['resources']
+        }
+
+        compileClasspath += sourceSets.main.output + sourceSets.commonTest.output + configurations.testRuntime
+        runtimeClasspath += output + compileClasspath
+    }
+}
+
+test {
+    //we want display the following test events
+    testLogging {
+        events "PASSED", "FAILED", "SKIPPED"
+    }
+}
+
+dependencies {
+    compile 'org.eclipse.hudson:hudson-core:3.2.1'
+    
+    compile "$groovy_all"
+    // For FlowInterruptedException
+    compile group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-step-api', version: '2.13', ext: 'jar'
+    compile group: 'org.yaml', name: 'snakeyaml', version: '1.8'
+    compile group: 'org.apache.ivy', name: 'ivy', version: '2.3.0'
+    compile 'com.veracode.vosp.api.wrappers:vosp-api-wrappers-java:18.5.5.2'
+    compile('com.cloudbees:groovy-cps:1.22')
+    compile 'javax.servlet:javax.servlet-api:3.1.0'
+
+    compile group: 'org.apache.commons', name: 'commons-compress', version: '1.16.1'
+
+    // To get around: 'Caused by: java.lang.NoClassDefFoundError: Unable to load class org.jenkinsci.plugins.workflow.steps.FlowInterruptedException due to missing dependency hudson/model/Action'
+    // https://stackoverflow.com/questions/47312009/where-can-i-find-org-jenkinsci-plugins-workflow-steps-flowinterruptedexception-w
+    compileOnly group: 'org.jenkins-ci.main', name: 'jenkins-core', version: '2.32.3'
+
+    //commonTestCompile rootProject.ext.groovy_all
+    commonTestCompile "$groovy_all"
+
+    testCompile 'junit:junit:4.12'
+}
+
+task integTest(type: Test) {
+
+    group 'verification'
+    description 'Runs the integration tests.'
+
+    testClassesDir = sourceSets.integTest.output.classesDir
+    classpath = sourceSets.integTest.runtimeClasspath
+    mustRunAfter test
+
+    //we want display the following test events
+    testLogging {
+        events "PASSED", "FAILED", "SKIPPED"
+    }
+
+}
+
+tasks.create('showDependencies') {
+    doFirst {
+        final config = configurations.getByName(sourceSets.getByName('main').compileClasspathConfigurationName)
+        config.resolvedConfiguration.resolvedArtifacts.findAll { it.moduleVersion.id.group.contains('jenkins') }.each {
+            println("Resolved dependency: id=${it.id}, extension=${it.extension}, classifier=${it.classifier}")
+        }
+    }
+}
+
+

@@ -1,0 +1,33 @@
+Required conf values
+- gitRepo - git repo to checkout (example: Engineering/datawarehouse)
+- veracodeApps - An optional list of Veracode application map configurations.  Each application has the following configuration options:
+    - appName - Veracode application name (example: datawarehouse)
+    - includesPattern - Veracode upload includes pattern (default: '*.zip')
+
+Optional conf values
+- projectType - The type of project you want to build (default: 'gradle')
+- gitCredentialsId - alternate Jenkins Credentials ID (default: 'st-github-builds')
+- defaultBranch - Alternative default branch to build out of (default: 'master')
+- disableEmail - set to true if email notifications should be disabled (default: false)
+- notificationEmailAddr - specify an alternate address for email notifications (default: builds@squaretade.com)
+- pythonProjectFiles - Optional list of extensions to search when scanning Python projects (default: ['.py', '.html', '.js', '.css'])
+- timeout.time - Timeout time for the job (default = 30)
+- timeout.unit - Timeout units for the job (default = MINUTES)
+- veracodeApps - An optional list of Veracode application map configurations.  Each application has the following configuration options:
+    - excludesPattern - Veracode upload excludes pattern (example: 'build/*.jar')
+    - timeout -  Optional time to wait in minutes for the scan to complete (example: 60).
+    - uploadFrom: - The location within the workspace to upload artifacts from (example: '.')
+
+Example Configurations
+
+    @Library('devops-jenkins-pipeline-shared-library')_
+    dwhscriptsPipeline(
+        gitRepo: 'Engineering/datawarehouse',
+        disableEmail: true,
+        veracodeApps: [
+            [
+                appName: 'datawarehouse',
+                includesPattern: '*.zip'
+            ]
+        ]
+    )
